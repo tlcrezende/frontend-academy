@@ -9,7 +9,6 @@ function LoginForm() {
   // a constante username recebe todos os parâmetros repasadaos pelo Hook useForm()
   const username = useForm();
   const password = useForm();
-  console.log(username);
   // variáveis e suas funções de atualização de estado
 
   async function handleSubmit(event) {
@@ -19,15 +18,20 @@ function LoginForm() {
     if (username.validate() && password.validate()) {
       // API de login com método POST
       const { url, options } = TOKEN_POST({
-        username: username.value,
-        password: username.password,
+        email: username.value,
+        password: password.value,
       });
+
+      console.log(username.value)
+      console.log(password.value)
 
       const response = await fetch(url, options)
       const json = await response.json();
       // Armazena informação no localstorage
-      window.localStorage.setItem('token', json[0].title)
-      console.log(json);
+      // window.localStorage.setItem('token', json[0].title)
+      console.log(response.headers.get('access-token'));
+      console.log(response.headers.get('client'));
+      console.log(response.headers.get('uid'));
     }
   }
 
